@@ -471,8 +471,18 @@ inline size_t Value::GetStringTensorDataLength() const {
   return out;
 }
 
+inline size_t Value::GetStringTensorElementLength(size_t element_index) const {
+  size_t out;
+  ThrowOnError(Global<void>::api_.GetStringTensorDataLength(p_, &out, element_index));
+  return out;
+}
+
 inline void Value::GetStringTensorContent(void* buffer, size_t buffer_length, size_t* offsets, size_t offsets_count) const {
   ThrowOnError(Global<void>::api_.GetStringTensorContent(p_, buffer, buffer_length, offsets, offsets_count));
+}
+
+inline void Value::GetStringTensorElement(void* buffer, size_t buffer_length, size_t element_index) const {
+  ThrowOnError(Global<void>::api_.GetStringTensorContent(p_, buffer, buffer_length, element_index));
 }
 
 template <typename T>

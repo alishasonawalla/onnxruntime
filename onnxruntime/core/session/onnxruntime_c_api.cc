@@ -548,6 +548,16 @@ ORT_API_STATUS_IMPL(OrtApis::FillStringTensor, _Inout_ OrtValue* value, _In_ con
   API_IMPL_END
 }
 
+ORT_API_STATUS_IMPL(OrtApis::FillStringTensorElement, _Inout_ OrtValue* value, _In_ const char* const* s, size_t index) {
+  TENSOR_READWRITE_API_BEGIN
+  auto* dst = tensor->MutableData<std::string>();
+
+    dst[index] = s;
+
+  return nullptr;
+  API_IMPL_END
+}
+
 ORT_API_STATUS_IMPL(OrtApis::GetStringTensorDataLength, _In_ const OrtValue* value, _Out_ size_t* out) {
   TENSOR_READ_API_BEGIN
   const auto* src = tensor.Data<std::string>();
@@ -558,6 +568,18 @@ ORT_API_STATUS_IMPL(OrtApis::GetStringTensorDataLength, _In_ const OrtValue* val
       ret += src[i].size();
     }
     *out = ret;
+  } else
+    return OrtApis::CreateStatus(ORT_INVALID_ARGUMENT, "shape is invalid");
+  return nullptr;
+  API_IMPL_END
+}
+
+ORT_API_STATUS_IMPL(OrtApis::GetStringTensorElementLength, _In_ const OrtValue* value, _Out_ size_t* out, size_t index) {
+  TENSOR_READ_API_BEGIN
+  const auto* src = tensor.Data<std::string>();
+  int64_t len = tensor.Shape().Size();
+  if (len >= 0) {
+    *out = src[index].size();
   } else
     return OrtApis::CreateStatus(ORT_INVALID_ARGUMENT, "shape is invalid");
   return nullptr;
@@ -589,6 +611,25 @@ ORT_API_STATUS_IMPL(OrtApis::GetStringTensorContent, _In_ const OrtValue* value,
     *offsets = f;
     f += input[i].size();
   }
+  return nullptr;
+  API_IMPL_END
+}
+
+ORT_API_STATUS_IMPL(OrtApis::GetStringTensorElement, _In_ const OrtValue* value, _Out_writes_bytes_all_(s_len) void* s,
+                    size_t s_len, size_t index) {
+  TENSOR_READ_API_BEGIN
+  const auto* input = tensor.Data<std::string>();
+  auto len = static_cast<size_t>(tensor.Shape().Size());
+  {
+    size_t ret = input[index].size();
+    if (s_len < ret) {
+      return OrtApis::CreateStatus(ORT_FAIL, "space is not enough");
+    }
+  }
+
+  char* p = static_cast<char*>(s);
+  memcpy(p, input[index].data(), input[index].size());
+
   return nullptr;
   API_IMPL_END
 }
@@ -1565,7 +1606,9 @@ static constexpr OrtApi ort_api_1_to_3 = {
     &OrtApis::DisablePerSessionThreads,
     &OrtApis::CreateThreadingOptions,
     &OrtApis::ReleaseThreadingOptions,
-    &OrtApis::ModelMetadataGetCustomMetadataMapKeys};
+    &OrtApis::ModelMetadataGetCustomMetadataMapKeys,
+    &OrtApis::GetStringTensorElementLength,
+    &OrtApis::GetStringTensorElement};
 
 // Assert to do a limited check to ensure Version 1 of OrtApi never changes (will detect an addition or deletion but not if they cancel out each other)
 // If this assert hits, read the above 'Rules on how to add a new Ort API version'

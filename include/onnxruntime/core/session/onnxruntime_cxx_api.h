@@ -288,6 +288,9 @@ struct Value : Base<OrtValue> {
 
   TypeInfo GetTypeInfo() const;
   TensorTypeAndShapeInfo GetTensorTypeAndShapeInfo() const;
+
+  size_t GetStringTensorElementLength(size_t element_index) const;
+  void GetStringTensorElement(void* buffer, size_t buffer_length, size_t element_index) const;
 };
 
 struct AllocatorWithDefaultOptions {

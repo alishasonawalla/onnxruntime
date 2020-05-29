@@ -827,7 +827,7 @@ struct OrtApi {
 
    /**
      * \param value A tensor created from OrtCreateTensor... function.
-     * \param s each A string array. Each string in this array must be null terminated.
+     * \param s A null terminated string 
      * \param index index of string tensor element to fill 
      */
   ORT_API2_STATUS(FillStringTensorElement, _Inout_ OrtValue* value, _In_ const char* s, size_t index);

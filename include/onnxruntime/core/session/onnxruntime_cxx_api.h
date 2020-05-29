@@ -291,6 +291,9 @@ struct Value : Base<OrtValue> {
 
   size_t GetStringTensorElementLength(size_t element_index) const;
   void GetStringTensorElement(void* buffer, size_t buffer_length, size_t element_index) const;
+
+  void FillStringTensor(const char* const* s, size_t s_len);
+  void FillStringTensorElement(const char* s, size_t index);
 };
 
 struct AllocatorWithDefaultOptions {

@@ -442,6 +442,14 @@ inline Value Value::CreateOpaque(const char* domain, const char* type_name, cons
   return Value{out};
 }
 
+inline void Value::FillStringTensor(const char* const* s, size_t s_len) {
+  ThrowOnError(Global<void>::api_.FillStringTensor(p_, s, s_len));
+}
+
+inline void Value::FillStringTensorElement(const char* s, size_t index) {
+  ThrowOnError(Global<void>::api_.FillStringTensorElement(p_, s, index));
+}
+
 template <typename T>
 inline void Value::GetOpaqueData(const char* domain, const char* type_name, T& out) {
   ThrowOnError(Global<void>::api_.GetOpaqueValue(domain, type_name, p_, &out, sizeof(T)));

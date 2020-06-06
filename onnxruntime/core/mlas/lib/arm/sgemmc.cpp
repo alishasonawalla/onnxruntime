@@ -25,8 +25,8 @@ MlasSgemmKernel(
     float* C,
     size_t CountK,
     size_t CountN,
-    size_t lda,
-    size_t ldc,
+    [[maybe_unused]] size_t lda,
+    [[maybe_unused]] size_t ldc,
     float alpha
     )
 /*++
@@ -72,15 +72,6 @@ Return Value:
     float32x4_t Row1Block1;
     float32x4_t Row1Block2;
     float32x4_t Row1Block3;
-
-#if defined(_WIN32)
-
-    if (!ProcessTwoRows) {
-        UNREFERENCED_PARAMETER(lda);
-        UNREFERENCED_PARAMETER(ldc);
-    }
-
-#endif
 
     do {
 

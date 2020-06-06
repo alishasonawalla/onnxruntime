@@ -240,19 +240,16 @@ static void ModelEnsureNoFloat16() {
   WINML_EXPECT_EQUAL(ort_api->GetErrorCode(float16_error_status), ORT_INVALID_GRAPH);
 }
 
-static void __stdcall TestLoggingCallback(void* param, OrtLoggingLevel severity, const char* category,
-                                          const char* logger_id, const char* code_location, const char* message) noexcept {
-  UNREFERENCED_PARAMETER(param);
-  UNREFERENCED_PARAMETER(severity);
-  UNREFERENCED_PARAMETER(category);
-  UNREFERENCED_PARAMETER(logger_id);
-  UNREFERENCED_PARAMETER(code_location);
-  UNREFERENCED_PARAMETER(message);
+static void __stdcall TestLoggingCallback([[maybe_unused]] void* param,
+                                          [[maybe_unused]] OrtLoggingLevel severity,
+                                          [[maybe_unused]] const char* category,
+                                          [[maybe_unused]] const char* logger_id,
+                                          [[maybe_unused]] const char* code_location,
+                                          [[maybe_unused]] const char* message) noexcept {
   logging_function_called = true;
 }
 
-static void __stdcall TestProfileEventCallback(const OrtProfilerEventRecord* profiler_record) noexcept {
-  UNREFERENCED_PARAMETER(profiler_record);
+static void __stdcall TestProfileEventCallback([[maybe_unused]] const OrtProfilerEventRecord* profiler_record) noexcept {
   profiling_function_called = true;
 }
 

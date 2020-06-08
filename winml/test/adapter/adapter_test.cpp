@@ -254,9 +254,7 @@ static void __stdcall TestLoggingCallback(void* param, OrtLoggingLevel severity,
 }
 
 static void __stdcall TestProfileEventCallback(const OrtProfilerEventRecord* profiler_record) noexcept {
-#ifdef _WIN32
   UNREFERENCED_PARAMETER(profiler_record);
-#endif
   profiling_function_called = true;
 }
 

@@ -16,6 +16,7 @@ Abstract:
 --*/
 
 #include "mlasi.h"
+#include "core/common/portable.h"
 
 template<bool ZeroMode, bool ProcessTwoRows>
 size_t
@@ -25,8 +26,8 @@ MlasSgemmKernel(
     float* C,
     size_t CountK,
     size_t CountN,
-    [[maybe_unused]] size_t lda,
-    [[maybe_unused]] size_t ldc,
+    size_t lda,
+    size_t ldc,
     float alpha
     )
 /*++
@@ -72,6 +73,11 @@ Return Value:
     float32x4_t Row1Block1;
     float32x4_t Row1Block2;
     float32x4_t Row1Block3;
+
+    if (!ProcessTwoRows) {
+        UNREFERENCED_PARAMETER(lda);
+        UNREFERENCED_PARAMETER(ldc);
+    }
 
     do {
 

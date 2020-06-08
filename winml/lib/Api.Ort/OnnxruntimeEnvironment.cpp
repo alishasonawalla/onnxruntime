@@ -11,9 +11,12 @@ using namespace _winml;
 
 static bool debug_output_ = false;
 
-static void __stdcall WinmlOrtLoggingCallback([[maybe_unused]] void* param,
-        OrtLoggingLevel severity, const char* category, [[maybe_unused]] const char* logger_id,
-        const char* code_location, const char* message) noexcept {
+static void __stdcall WinmlOrtLoggingCallback(void* param, OrtLoggingLevel severity, const char* category,
+                                    const char* logger_id, const char* code_location, const char* message) noexcept {
+#ifdef _WIN32
+  UNREFERENCED_PARAMETER(param);
+  UNREFERENCED_PARAMETER(logger_id);
+#endif
   // ORT Fatal and Error Messages are logged as Telemetry, rest are non-telemetry.
   switch (severity) {
     case OrtLoggingLevel::ORT_LOGGING_LEVEL_FATAL:  //Telemetry

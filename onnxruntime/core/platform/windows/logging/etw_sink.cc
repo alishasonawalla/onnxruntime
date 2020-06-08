@@ -45,6 +45,8 @@
 #define _tlgPragmaUtf8End
 #endif
 
+#include "core/common/portable.h"
+
 namespace onnxruntime {
 namespace logging {
 
@@ -89,7 +91,9 @@ class EtwRegistrationManager {
   const HRESULT etw_status_;
 };
 
-void EtwSink::SendImpl([[maybe_unused]] const Timestamp& timestamp, const std::string& logger_id, const Capture& message) {
+void EtwSink::SendImpl(const Timestamp& timestamp, const std::string& logger_id, const Capture& message) {
+  UNREFERENCED_PARAMETER(timestamp);
+
   // register on first usage
   static EtwRegistrationManager& etw_manager = EtwRegistrationManager::Register();
 

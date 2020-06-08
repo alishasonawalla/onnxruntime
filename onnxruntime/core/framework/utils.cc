@@ -18,6 +18,7 @@
 #include "core/framework/sequential_executor.h"
 #include "core/framework/tensorprotoutils.h"
 #include "core/mlas/inc/mlas.h"
+#include "core/common/portable.h"
 
 namespace ONNX_NAMESPACE {
 std::ostream& operator<<(std::ostream& out, const TensorShapeProto& shape_proto) {
@@ -455,8 +456,9 @@ static common::Status ExecuteGraphImpl(const SessionState& session_state,
                                        const FeedsFetchesManager& feeds_fetches_manager,
                                        const std::vector<OrtValue>& feeds, std::vector<OrtValue>& fetches,
                                        const std::unordered_map<size_t, IExecutor::CustomAllocator>& fetch_allocators,
-                                       [[maybe_unused]] ExecutionMode execution_mode, const bool& terminate_flag,
+                                       ExecutionMode execution_mode, const bool& terminate_flag,
                                        const logging::Logger& logger) {
+  UNREFERENCED_PARAMETER(execution_mode);
   std::unique_ptr<IExecutor> p_exec;
   //if (execution_mode == ExecutionMode::ORT_SEQUENTIAL) {
     p_exec = std::unique_ptr<IExecutor>(new SequentialExecutor(terminate_flag));

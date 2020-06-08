@@ -3,6 +3,7 @@
 #include "fileHelpers.h"
 #include "winrt/Windows.Storage.h"
 #include "winrt/Windows.Storage.Streams.h"
+#include "core/common/portable.h"
 
 using namespace ws;
 using namespace wss;
@@ -240,16 +241,22 @@ static void ModelEnsureNoFloat16() {
   WINML_EXPECT_EQUAL(ort_api->GetErrorCode(float16_error_status), ORT_INVALID_GRAPH);
 }
 
-static void __stdcall TestLoggingCallback([[maybe_unused]] void* param,
-                                          [[maybe_unused]] OrtLoggingLevel severity,
-                                          [[maybe_unused]] const char* category,
-                                          [[maybe_unused]] const char* logger_id,
-                                          [[maybe_unused]] const char* code_location,
-                                          [[maybe_unused]] const char* message) noexcept {
+static void __stdcall TestLoggingCallback(void* param, OrtLoggingLevel severity, const char* category,
+                                          const char* logger_id, const char* code_location, const char* message) noexcept {
+  UNREFERENCED_PARAMETER(param);
+  UNREFERENCED_PARAMETER(severity);
+  UNREFERENCED_PARAMETER(category);
+  UNREFERENCED_PARAMETER(logger_id);
+  UNREFERENCED_PARAMETER(code_location);
+  UNREFERENCED_PARAMETER(message);
+
   logging_function_called = true;
 }
 
-static void __stdcall TestProfileEventCallback([[maybe_unused]] const OrtProfilerEventRecord* profiler_record) noexcept {
+static void __stdcall TestProfileEventCallback(const OrtProfilerEventRecord* profiler_record) noexcept {
+#ifdef _WIN32
+  UNREFERENCED_PARAMETER(profiler_record);
+#endif
   profiling_function_called = true;
 }
 

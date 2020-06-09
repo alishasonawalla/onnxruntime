@@ -248,7 +248,6 @@ static void __stdcall TestLoggingCallback(void* param, OrtLoggingLevel severity,
   UNREFERENCED_PARAMETER(logger_id);
   UNREFERENCED_PARAMETER(code_location);
   UNREFERENCED_PARAMETER(message);
-
   logging_function_called = true;
 }
 

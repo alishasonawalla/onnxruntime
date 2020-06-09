@@ -582,8 +582,8 @@ ORT_API_STATUS_IMPL(OrtApis::GetStringTensorDataLength, _In_ const OrtValue* val
 ORT_API_STATUS_IMPL(OrtApis::GetStringTensorElementLength, _In_ const OrtValue* value, _Out_ size_t* out, size_t index) {
   TENSOR_READ_API_BEGIN
   const auto* src = tensor.Data<std::string>();
-  auto len = static_cast<size_t>(tensor.Shape().Size());
-  if (len >= 0 && index < len) {
+  auto  len = static_cast<size_t>(tensor.Shape().Size());
+  if (index < len) {
     *out = src[index].size();
   } else
     return OrtApis::CreateStatus(ORT_INVALID_ARGUMENT, "shape is invalid");

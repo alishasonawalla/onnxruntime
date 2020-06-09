@@ -457,7 +457,12 @@ static common::Status ExecuteGraphImpl(const SessionState& session_state,
                                        const std::unordered_map<size_t, IExecutor::CustomAllocator>& fetch_allocators,
                                        ExecutionMode execution_mode, const bool& terminate_flag,
                                        const logging::Logger& logger) {
+#ifdef _WIN32
   UNREFERENCED_PARAMETER(execution_mode);
+#else
+  // avoid unused compiler error
+    (void)execution_mode;
+#endif
   std::unique_ptr<IExecutor> p_exec;
   //if (execution_mode == ExecutionMode::ORT_SEQUENTIAL) {
     p_exec = std::unique_ptr<IExecutor>(new SequentialExecutor(terminate_flag));

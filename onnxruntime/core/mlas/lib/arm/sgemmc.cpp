@@ -16,7 +16,6 @@ Abstract:
 --*/
 
 #include "mlasi.h"
-#include "core/common/portable.h"
 
 template<bool ZeroMode, bool ProcessTwoRows>
 size_t
@@ -74,10 +73,14 @@ Return Value:
     float32x4_t Row1Block2;
     float32x4_t Row1Block3;
 
+#if defined(_WIN32)
+
     if (!ProcessTwoRows) {
         UNREFERENCED_PARAMETER(lda);
         UNREFERENCED_PARAMETER(ldc);
     }
+
+#endif
 
     do {
 

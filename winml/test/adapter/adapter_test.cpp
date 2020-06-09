@@ -3,7 +3,6 @@
 #include "fileHelpers.h"
 #include "winrt/Windows.Storage.h"
 #include "winrt/Windows.Storage.Streams.h"
-#include "core/common/portable.h"
 
 using namespace ws;
 using namespace wss;

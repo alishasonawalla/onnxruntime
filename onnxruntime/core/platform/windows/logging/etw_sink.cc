@@ -45,8 +45,6 @@
 #define _tlgPragmaUtf8End
 #endif
 
-#include "core/common/portable.h"
-
 namespace onnxruntime {
 namespace logging {
 

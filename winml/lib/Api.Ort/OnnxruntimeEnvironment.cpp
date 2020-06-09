@@ -6,7 +6,6 @@
 #include "OnnxruntimeErrors.h"
 #include "core/platform/windows/TraceLoggingConfig.h"
 #include <evntrace.h>
-#include "core/common/portable.h"
 
 using namespace _winml;
 
